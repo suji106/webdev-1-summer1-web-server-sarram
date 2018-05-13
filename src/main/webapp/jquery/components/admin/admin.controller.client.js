@@ -65,10 +65,10 @@
 	function updateUser() {
 		console.log('updateUser');
 
-		var username = $('#usernameFld').val();
-		var password = $('#passwordFld').val();
-		var firstName = $('#firstNameFld').val();
-		var lastName = $('#lastNameFld').val();
+		$usernameFld = $('#usernameFld').val();
+		$passwordFld = $('#passwordFld').val();
+		$firstNameFld = $('#firstNameFld').val();
+		$lastNameFld = $('#lastNameFld').val();
 
 		var user = {
 				username: username,
@@ -85,10 +85,10 @@
 	function createUser() {
 		console.log('createUser');
 
-		var username = $('#usernameFld').val();
-		var password = $('#passwordFld').val();
-		var firstName = $('#firstNameFld').val();
-		var lastName = $('#lastNameFld').val();
+		$usernameFld = $('#usernameFld').val();
+		$passwordFld = $('#passwordFld').val();
+		$firstNameFld = $('#firstNameFld').val();
+		$lastNameFld = $('#lastNameFld').val();
 
 		var user = {
 				username: username,

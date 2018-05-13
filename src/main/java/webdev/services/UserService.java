@@ -54,7 +54,7 @@ public class UserService {
 	@PostMapping("/api/register")
 	public User register(@RequestBody User user) {
 		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(user.getUsername());
-		System.out.println(user.getFirstName() + "ssssssssssssssss");
+
 		if (listOfRegistrations.isEmpty())
 			return userRepository.save(user);
 		else

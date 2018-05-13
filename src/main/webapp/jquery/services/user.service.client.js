@@ -62,3 +62,24 @@ function UserServiceClient() {
 		});
 	}
 }
+
+function UserService() {
+	console.log("userService");
+	this.login = login;
+	
+	this.loginUrl =
+		"http://localhost:8080/api/login";
+	
+	var self = this;
+	
+	function login(user) {
+		console.log('loginService');
+		return fetch(self.loginUrl, {
+			method: 'post',
+			body: JSON.stringify(user),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+}
