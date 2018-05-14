@@ -1,0 +1,24 @@
+#updateBtn {
+	background-color: green;
+}
+
+#logoutBtn {
+	background-color: red;
+}
+
+.popups {
+	background-color: green;
+	text-decoration: overline;
+}
+
+.popup {
+	color: #009900;
+	background-color: #00ff99;
+	text-align: left;
+    border-radius: 5px;
+    height: 35px;
+    padding: 100;
+    text-indent: 20px;
+    padding-top: 5px;
+    vertical-align: bottom;
+}
