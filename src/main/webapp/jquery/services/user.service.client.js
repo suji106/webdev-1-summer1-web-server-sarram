@@ -10,8 +10,8 @@ function UserServiceClient() {
 		'http://localhost:8080/api/register';
 	var self = this;
 
-	function updateUser(userId, user) {
-		return fetch(self.url + "/" + userId, {
+	function updateUser(user) {
+		return fetch(self.url, {
 			method: 'put',
 			body: JSON.stringify(user),
 			headers: {
@@ -67,11 +67,14 @@ function UserService() {
 	console.log("userService");
 	this.register = register;
 	this.login = login;
+	this.updateUser = updateUser;
 	
 	this.registerUrl =
 		"http://localhost:8080/api/register";
 	this.loginUrl =
 		"http://localhost:8080/api/login";
+	this.profile = 
+		"http://localhost:8080/api/profile";
 	
 	var self = this;
 	
@@ -90,6 +93,17 @@ function UserService() {
 		console.log('loginService');
 		return fetch(self.loginUrl, {
 			method: 'post',
+			body: JSON.stringify(user),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+	
+	function updateUser(user) {
+		console.log('updateService');
+		return fetch(self.profile, {
+			method: 'put',
 			body: JSON.stringify(user),
 			headers: {
 				'content-type': 'application/json'
