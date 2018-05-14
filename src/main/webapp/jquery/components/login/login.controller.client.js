@@ -6,6 +6,8 @@
 	
 	    function main() { 
 			$('#signInBtn').click(login);
+			$('#signUpBtn').click(signUpRedirect);
+			// $('#forgotBtn').click(login);
 	    }
 	    
 	    function login() {
@@ -14,17 +16,26 @@
 	    	$usernameFld = $('#usernameFld').val();
 			$passwordFld = $('#passwordFld').val();
 	
-			var user = {
-					username: $usernameFld,
-					password: $passwordFld,
-			};
+//			var user = {
+//					username: $usernameFld,
+//					password: $passwordFld,
+//			};
+//			
+			var user = new User($usernameFld, $passwordFld, null, null);
 	
 			userService
 			.login(user)
-			.then(xxx);
+			.then(function(response){
+				if(response.status != 200){
+					alert("No user found with the given combination!!");
+				}
+				else if(response.status == 200){
+					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html";
+				}
+			});
 	    }
 	    
-	    function xxx() {
-	    	alert("ssss");
-	    }
+	    function signUpRedirect() {
+			window.location.href = "http://localhost:8080/jquery/components/register/register.template.client.html"
+		}
 })();
