@@ -30,7 +30,8 @@
 					alert("No user found with the given combination!!");
 				}
 				else if(response.status == 200){
-					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html";
+					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html#" 
+						+ $usernameFld;
 				}
 			});
 	    }

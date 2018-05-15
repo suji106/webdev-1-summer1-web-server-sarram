@@ -42,7 +42,7 @@
 		
 		$valuesTemplate = $('#' + userId);
 		
-		$('#usernameFld').val($valuesTemplate.find('.wbdv-username').html());		
+		$('#emailFld').val($valuesTemplate.find('.wbdv-username').html());		
 		$('#firstNameFld').val($valuesTemplate.find('.wbdv-first-name').html());
 		$('#lastNameFld').val($valuesTemplate.find('.wbdv-last-name').html());		
 	}

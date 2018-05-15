@@ -34,8 +34,7 @@ public class UserService {
 	}
 	
 	@PutMapping("/api/user")
-	public User findUserById(@RequestBody User user) {
-		System.out.println("sssssssssss");
+	public User findUserByUserName(@RequestBody User user) {
 		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(user.getUsername());
 
 		if (!listOfRegistrations.isEmpty()) {
@@ -116,5 +115,12 @@ public class UserService {
 		else {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping("/api/profile")
+	public User findUserByUserName(@RequestParam("user") String userName) {
+		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(userName);
+		User u = listOfRegistrations.get(0);
+		return u;
 	}
 }

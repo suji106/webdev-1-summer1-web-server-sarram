@@ -68,6 +68,7 @@ function UserService() {
 	this.register = register;
 	this.login = login;
 	this.updateUser = updateUser;
+	this.searchByUserName = searchByUserName;
 	
 	this.registerUrl =
 		"http://localhost:8080/api/register";
@@ -108,6 +109,14 @@ function UserService() {
 			headers: {
 				'content-type': 'application/json'
 			}
+		});
+	}
+	
+	function searchByUserName(userName) {
+		console.log('profileByNameService');
+		return fetch(self.profile + '?user=' + userName)
+		.then(function (response) {
+			return response.json();
 		});
 	}
 }
