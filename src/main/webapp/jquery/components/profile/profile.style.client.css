@@ -1,21 +1,27 @@
 body {
     color: #2f8dd2;
-    background-color: #111111;
+
 }
 
 #profileTitle {
 	text-align: center;
 	text-indent: 50px;
+	margin-top: 30px;
+	color: #ff8000;
+	font-size: 50px;
 }
 
-.popups {
-	background-color: green;
-	text-decoration: overline;
+#userNameBlock {
+	margin-top: 40px;
+}
+
+.row{
+	margin-top: 25px;
 }
 
 .popup {
-	color: #009900;
-	background-color: #00ff99;
+	color: orange;
+	background-color: #408080;
 	text-align: left;
     border-radius: 5px;
     height: 35px;
