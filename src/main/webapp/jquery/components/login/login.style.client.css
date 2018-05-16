@@ -11,6 +11,11 @@ body {
 	font-size: 50px;
 }
 
+#newAccount{
+	padding-right: 10px;
+	color: orange;
+}
+
 #userNameBlock {
 	margin-top: 60px;
 }

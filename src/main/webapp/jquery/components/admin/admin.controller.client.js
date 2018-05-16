@@ -22,13 +22,18 @@
 		console.log('searchUser');
 
 		var searchBtn = $(event.currentTarget);
-		
-		var userName = $('#usernameFld').val();
-		console.log(userName);
 
-		userService.searchByUserName(userName).then(renderUser);
+		var userName = $('#usernameFld').val();
+		userName = userName.trim();
+		console.log(userName);
+		if(userName == ''){
+			userService.findAllUsers().then(renderUsers);
+		}
+		else{
+			userService.searchByUserName(userName).then(renderUser);
+		}	
 	}
-	
+
 	function renderUser(user) {
 		console.log("Rendering one user");
 		tbody.empty();
@@ -42,35 +47,35 @@
 		clone.find('.wbdv-edit').click(editUser);
 		tbody.append(clone);
 	}
-	
+
 	function editUser(event) {
 		console.log('editUser');
 
 		var editBtn = $(event.currentTarget);
-		
+
 		userId = editBtn
 		.parent()
 		.parent()
 		.parent()
 		.attr('id');
-		
+
 		$valuesTemplate = $('#' + userId);
-		
+
 		$('#usernameFld').val($valuesTemplate.find('.wbdv-username').html());
 		$('#usernameFld').attr("disabled", true);
 		$('#firstNameFld').val($valuesTemplate.find('.wbdv-first-name').html());
 		$('#lastNameFld').val($valuesTemplate.find('.wbdv-last-name').html());		
 	}
-	
+
 	function updateUser() {
 		console.log('updateUser');
-		
+
 		$usernameFld = $('#usernameFld').val();
 		$passwordFld = $('#passwordFld').val();
 		$firstNameFld = $('#firstNameFld').val();
 		$lastNameFld = $('#lastNameFld').val();
 		$roleFld = $('#roleFld').val();
-		
+
 		var user = {
 				username: $usernameFld,
 				password: $passwordFld,
@@ -78,26 +83,28 @@
 				lastName: $lastNameFld,
 				role: $roleFld
 		};
-		
+
 		// var user = new User($usernameFld, $passwordFld, $firstNameFld, $lastNameFld, null, null, $roleFld, null);
-		
+
 		userService
 		.updateUser(user)
 		.then(findAllUsers).then(location.reload());
 	}
-	
+
 	function deleteUser(event) {
 		console.log('deleteUser');
-
-		var deleteBtn = $(event.currentTarget);
-		var userId = deleteBtn
-		.parent()
-		.parent()
-		.parent()
-		.attr('id');
-
-		userService
-		.deleteUser(userId).then(findAllUsers);
+		if (confirm("Are you sure to delete the user?")) {
+			var deleteBtn = $(event.currentTarget);
+			var userId = deleteBtn
+			.parent()
+			.parent()
+			.parent()
+			.attr('id');
+			userService
+			.deleteUser(userId).then(location.reload());
+		} else {
+			txt = "You pressed Cancel!";
+		}
 	}
 
 	function createUser() {
@@ -118,7 +125,7 @@
 		};
 
 		userService
-		.createUser(user).then(findAllUsers);
+		.createUser(user).then(location.reload());
 	}
 
 	function findAllUsers() {

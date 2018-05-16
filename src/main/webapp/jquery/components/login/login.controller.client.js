@@ -36,12 +36,14 @@
 	    	console.log("sendEmailController");
 	    	console.log(user.password);
 	    	$passwordFld = user.password;
-	    	var email = user.email;
 	    	subject = 'Email Recovery: Admin Services for ' + user.firstName;
 	    	body = 'Your password is: ' + $passwordFld;
 	    	mailContent = 'mailto:' + email + '?subject=' + subject + '&body=' + body
 	    	window.open(mailContent);
-	    	alert("Password has been sent to your email address!");
+	    	var email = prompt("Please enter your email address to recover your password!", "");
+	    	console.log(email);
+	    	alert("An email containing link to reset your password has been sent to " + email);
+	    	location.reload();
 	    }
 	    
 	    function login() {
@@ -49,23 +51,21 @@
 	
 	    	$usernameFld = $('#usernameFld').val();
 			$passwordFld = $('#passwordFld').val();
-	
-//			var user = {
-//					username: $usernameFld,
-//					password: $passwordFld,
-//			};
-			
+
 			var user = new User($usernameFld, $passwordFld, null, null, null, null, null, null);
 	
 			userService
 			.login(user)
 			.then(function(response){
-				if(response.status != 200){
-					alert("No user found with the given combination!!");
+				if(response.status == 401){
+					alert("Password entered is wrong for the user!!");
 				}
 				else if(response.status == 200){
 					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html#" 
 						+ $usernameFld;
+				}
+				else{
+					alert("No user found with the given username!!");
 				}
 			});
 	    }
