@@ -1,14 +1,14 @@
 (function () {
 	var $usernameFld, $passwordFld;
 	var $removeBtn, $editBtn, $createBtn;
-	var $firstNameFld, $lastNameFld;
+	var $firstNameFld, $lastNameFld, $roleFld;
 	var $userRowTemplate, $tbody;
 	var userId;
 	$(main);
 
 	var userService = new UserServiceClient()
 
-	function main() {		
+	function main() {
 		tbody = $('tbody');
 		$userRowTemplate = $('.table-row');
 		$('#createUser').click(createUser);
@@ -19,22 +19,36 @@
 	}
 
 	function searchUser(event) {
-		console.log('deleteUser');
+		console.log('searchUser');
 
 		var searchBtn = $(event.currentTarget);
-		var userId = searchBtn
-		.parent()
-		.parent()
-		.attr('id');
+		
+		var userName = $('#usernameFld').val();
+		console.log(userName);
 
-		userService.searchUser(342).then(renderUsers);
+		userService.searchByUserName(userName).then(renderUser);
+	}
+	
+	function renderUser(user) {
+		console.log("Rendering one user");
+		tbody.empty();
+		var clone = $userRowTemplate.clone(); 
+		clone.attr('id', user.id);
+		clone.find('.wbdv-username').html(user.username);
+		clone.find('.wbdv-first-name').html(user.firstName);
+		clone.find('.wbdv-last-name').html(user.lastName);
+		clone.find('.wbdv-role').html(user.role);
+		clone.find('.wbdv-remove').click(deleteUser);
+		clone.find('.wbdv-edit').click(editUser);
+		tbody.append(clone);
 	}
 	
 	function editUser(event) {
 		console.log('editUser');
 
-		var deleteBtn = $(event.currentTarget);
-		userId = deleteBtn
+		var editBtn = $(event.currentTarget);
+		
+		userId = editBtn
 		.parent()
 		.parent()
 		.parent()
@@ -42,7 +56,8 @@
 		
 		$valuesTemplate = $('#' + userId);
 		
-		$('#emailFld').val($valuesTemplate.find('.wbdv-username').html());		
+		$('#usernameFld').val($valuesTemplate.find('.wbdv-username').html());
+		$('#usernameFld').attr("disabled", true);
 		$('#firstNameFld').val($valuesTemplate.find('.wbdv-first-name').html());
 		$('#lastNameFld').val($valuesTemplate.find('.wbdv-last-name').html());		
 	}
@@ -54,17 +69,21 @@
 		$passwordFld = $('#passwordFld').val();
 		$firstNameFld = $('#firstNameFld').val();
 		$lastNameFld = $('#lastNameFld').val();
+		$roleFld = $('#roleFld').val();
 		
 		var user = {
 				username: $usernameFld,
 				password: $passwordFld,
 				firstName: $firstNameFld,
-				lastName: $lastNameFld
+				lastName: $lastNameFld,
+				role: $roleFld
 		};
-
+		
+		// var user = new User($usernameFld, $passwordFld, $firstNameFld, $lastNameFld, null, null, $roleFld, null);
+		
 		userService
 		.updateUser(user)
-		.then(findAllUsers);
+		.then(findAllUsers).then(location.reload());
 	}
 	
 	function deleteUser(event) {
@@ -88,12 +107,14 @@
 		$passwordFld = $('#passwordFld').val();
 		$firstNameFld = $('#firstNameFld').val();
 		$lastNameFld = $('#lastNameFld').val();
+		$roleFld = $('#roleFld').val();
 
 		var user = {
 				username: $usernameFld,
 				password: $passwordFld,
 				firstName: $firstNameFld,
-				lastName: $lastNameFld
+				lastName: $lastNameFld,
+				role: $roleFld
 		};
 
 		userService
@@ -115,9 +136,11 @@
 			clone.find('.wbdv-username').html(user.username);
 			clone.find('.wbdv-first-name').html(user.firstName);
 			clone.find('.wbdv-last-name').html(user.lastName);
+			clone.find('.wbdv-role').html(user.role);
 			clone.find('.wbdv-remove').click(deleteUser);
 			clone.find('.wbdv-edit').click(editUser);
 			tbody.append(clone);
+			//location.reload();
 		}
 	}
 })();

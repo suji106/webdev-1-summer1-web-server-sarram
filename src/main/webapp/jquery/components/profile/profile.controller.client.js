@@ -3,9 +3,11 @@
 	var $usernameFld, $phoneFld, $emailFld, $roleFld, $dobFld;
 	var $registerBtn;
 	var flag = true;
-
+	
 	var userService = new UserService();
-	userService.searchByUserName(usernameParam).then(main);
+	
+	var userServiceClient = new UserServiceClient();
+	userServiceClient.searchByUserName(usernameParam).then(main);
 
 	function main(user) { 
 		console.log("user:");
@@ -33,13 +35,7 @@
 		$roleFld = $('#roleFld').val();
 		$dobFld = $('#dobFld').val();
 
-		var user = {
-				username: $usernameFld,
-				phone: $phoneFld,
-				email: $emailFld,
-				role: $roleFld,
-				dateOfBirth: $dobFld
-		};
+		var user = new User($usernameFld, null, null, null, $emailFld, $phoneFld, $roleFld, $dobFld);
 		
 		console.log(JSON.stringify(user));
 

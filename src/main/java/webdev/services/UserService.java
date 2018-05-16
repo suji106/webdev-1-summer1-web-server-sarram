@@ -19,9 +19,16 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	@GetMapping("/api/user")
+	@GetMapping("/api/users")
 	public List<User> findAllUsers() {
 		return (List<User>) userRepository.findAll();
+	}
+	
+	@GetMapping("/api/user")
+	public User findUserByUserName(@RequestParam("user") String userName) {
+		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(userName);
+		User u = listOfRegistrations.get(0);
+		return u;
 	}
 
 	@GetMapping("/api/user/{userId}")
@@ -45,7 +52,6 @@ public class UserService {
 		else
 			return null;
 	}
-
 
 	@PutMapping("/api/user/{userId}")
 	public User updateUser(@RequestBody User newUser, @PathVariable("userId") int id) {
@@ -88,15 +94,10 @@ public class UserService {
 		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
 		try {
 			User oldUser = listOfRegistrations.get(0);
-			user.setId(oldUser.getId());
-			user.setPassword(oldUser.getPassword());
-			user.setFirstName(oldUser.getFirstName());
-			user.setLastName(oldUser.getLastName());
-			userRepository.save(user);
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		catch(Exception e) {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -115,12 +116,5 @@ public class UserService {
 		else {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
-	}
-	
-	@GetMapping("/api/profile")
-	public User findUserByUserName(@RequestParam("user") String userName) {
-		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(userName);
-		User u = listOfRegistrations.get(0);
-		return u;
 	}
 }

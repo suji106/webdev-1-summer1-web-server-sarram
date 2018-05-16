@@ -2,27 +2,23 @@ function UserServiceClient() {
 	this.createUser = createUser;
 	this.deleteUser = deleteUser;
 	this.updateUser = updateUser;
-	this.searchUser = searchUser;
+	this.searchByUserName = searchByUserName;
 	this.findAllUsers = findAllUsers;
-	this.url = 
+	this.user = 
 		'http://localhost:8080/api/user';
+	this.users = 
+		'http://localhost:8080/api/users';
 	this.register =
 		'http://localhost:8080/api/register';
 	var self = this;
 
 	function updateUser(user) {
-		return fetch(self.url, {
+		return fetch(self.user, {
 			method: 'put',
 			body: JSON.stringify(user),
 			headers: {
 				'content-type': 'application/json'
 			}
-		});
-	}
-
-	function searchUser(userId, user) {
-		return fetch(self.url + "/" + userId, {
-			method: 'get'       
 		});
 	}
 
@@ -36,19 +32,30 @@ function UserServiceClient() {
 		});
 		callback();
 	}
-
-	function searchUser(userId) {
-		console.log("searchService")
-		return fetch(self.url)
+	
+	function searchByUserName(userName) {
+		console.log('profileByNameService');
+		return fetch(self.user + '?user=' + userName)
 		.then(function (response) {
-			return response.json();
+			var r = response.json()
+			// console.log(r);
+			return r;
 		});
 	}
 
+/*
+	function searchUser(userId) {
+		console.log("searchService")
+		return fetch(self.user)
+		.then(function (response) {
+			return response.json();
+		});
+	}*/
+
 	function deleteUser(userId) {
-		fetch(self.url + "/" + userId, {
+		fetch(self.user + "/" + userId, {
 			method: 'delete'});
-		return fetch(self.url)
+		return fetch(self.user)
 		.then(function (response) {
 			return response.json();
 		});
@@ -56,7 +63,8 @@ function UserServiceClient() {
 	}
 
 	function findAllUsers() {
-		return fetch(self.url)
+		console.log("finding users");
+		return fetch(self.users)
 		.then(function (response) {
 			return response.json();
 		});
@@ -68,7 +76,6 @@ function UserService() {
 	this.register = register;
 	this.login = login;
 	this.updateUser = updateUser;
-	this.searchByUserName = searchByUserName;
 	
 	this.registerUrl =
 		"http://localhost:8080/api/register";
@@ -109,14 +116,6 @@ function UserService() {
 			headers: {
 				'content-type': 'application/json'
 			}
-		});
-	}
-	
-	function searchByUserName(userName) {
-		console.log('profileByNameService');
-		return fetch(self.profile + '?user=' + userName)
-		.then(function (response) {
-			return response.json();
 		});
 	}
 }

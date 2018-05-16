@@ -15,11 +15,11 @@
 		$usernameFld = $('#usernameFld').val();
 		$passwordFld = $('#passwordFld').val();
 		$verifyPasswordFld = $('#verifyPasswordFld').val();
-		
+
 		if($passwordFld == $verifyPasswordFld){
-			
-			var user = new User($usernameFld, $passwordFld, null, null);
-			
+
+			var user = new User($usernameFld, $passwordFld, null, null, null, null, null, null);
+
 			userService
 			.register(user)
 			.then(function(response){
@@ -27,7 +27,9 @@
 					alert("User already exists!!");
 				}
 				else if(response.status == 200){
-					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html";
+					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html#"
+						+ $usernameFld;
+
 				}
 			});
 		}
@@ -35,9 +37,8 @@
 			alert("Passwords don't match!")
 		}
 	}
-	
+
 	function loginRedirect() {
-		console.log("sss");
 		window.location.href = "http://localhost:8080/jquery/components/login/login.template.client.html"
 	}
 })();

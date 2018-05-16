@@ -5,6 +5,7 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	rel="stylesheet" />
+<link href="profile.style.client.css" rel="stylesheet" />
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -12,11 +13,12 @@
 <link href="profile.style.client.css" rel="stylesheet" />
 <script src="../../services/user.service.client.js"></script>
 <script src="profile.controller.client.js"></script>
+<script src="../../models/user.model.client.js"></script>
 
 </head>
 <body>
 	<div class="container">
-		<h1 id="title">Profile</h1>
+		<h1 id="profileTitle">Profile</h1>
 		<form>
 			<div class="form-group row">
 				<label for="userameFld" class="col-sm-2 col-form-label">Username</label>
@@ -48,7 +50,8 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="dobFld" class="col-sm-2 col-form-label">Date of Birth</label>
+				<label for="dobFld" class="col-sm-2 col-form-label">Date of
+					Birth</label>
 				<div class="col-sm-10">
 					<input type="date" class="form-control" id="dobFld"
 						placeholder="mm/dd/yyyy">
@@ -57,13 +60,15 @@
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label"></label>
 				<div class="col-sm-10">
-					<button type="button" id="updateBtn" class="btn btn-primary btn-block">Update</button>
+					<button type="button" id="updateBtn"
+						class="btn btn-primary btn-block btn-success">Update</button>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label"></label>
 				<div class="col-sm-10">
-					<button type="button" id="logoutBtn" class="btn btn-primary btn-block">Logout</button>
+					<button type="button" id="logoutBtn"
+						class="btn btn-primary btn-block btn-danger">Logout</button>
 				</div>
 			</div>
 		</form>
