@@ -91,13 +91,19 @@ public class UserService {
 
 	@PostMapping("/api/login")
 	public ResponseEntity login(@RequestBody User user) {
+		List<User> listOfUsers = (List<User>) userRepository.findUserByUserName(user.getUsername());
 		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
-		try {
-			User oldUser = listOfRegistrations.get(0);
-			return new ResponseEntity(HttpStatus.OK);
+		if(!listOfUsers.isEmpty()) {
+			try {
+				User oldUser = listOfRegistrations.get(0);
+				return new ResponseEntity(HttpStatus.OK);
+			}
+			catch(Exception e) {
+				return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+			}
 		}
-		catch(Exception e) {
-			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		else {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 
