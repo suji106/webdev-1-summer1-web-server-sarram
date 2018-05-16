@@ -5,11 +5,11 @@ function UserServiceClient() {
 	this.searchByUserName = searchByUserName;
 	this.findAllUsers = findAllUsers;
 	this.user = 
-		'http://localhost:8080/api/user';
+		'/api/user';
 	this.users = 
-		'http://localhost:8080/api/users';
+		'/api/users';
 	this.register =
-		'http://localhost:8080/api/register';
+		'/api/register';
 	var self = this;
 
 	function updateUser(user) {
@@ -78,11 +78,11 @@ function UserService() {
 	this.updateUser = updateUser;
 	
 	this.registerUrl =
-		"http://localhost:8080/api/register";
+		"/api/register";
 	this.loginUrl =
-		"http://localhost:8080/api/login";
+		"/api/login";
 	this.profile = 
-		"http://localhost:8080/api/profile";
+		"/api/profile";
 	
 	var self = this;
 	

@@ -61,7 +61,7 @@
 					alert("Password entered is wrong for the user!!");
 				}
 				else if(response.status == 200){
-					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html#" 
+					window.location.href = "/jquery/components/profile/profile.template.client.html#" 
 						+ $usernameFld;
 				}
 				else{
@@ -71,6 +71,6 @@
 	    }
 	    
 	    function signUpRedirect() {
-			window.location.href = "http://localhost:8080/jquery/components/register/register.template.client.html"
+			window.location.href = "/jquery/components/register/register.template.client.html"
 		}
 })();

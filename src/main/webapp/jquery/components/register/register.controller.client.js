@@ -27,7 +27,7 @@
 					alert("User already exists!!");
 				}
 				else if(response.status == 200){
-					window.location.href = "http://localhost:8080/jquery/components/profile/profile.template.client.html#"
+					window.location.href = "/jquery/components/profile/profile.template.client.html#"
 						+ $usernameFld;
 
 				}
@@ -39,6 +39,6 @@
 	}
 
 	function loginRedirect() {
-		window.location.href = "http://localhost:8080/jquery/components/login/login.template.client.html"
+		window.location.href = "/jquery/components/login/login.template.client.html"
 	}
 })();

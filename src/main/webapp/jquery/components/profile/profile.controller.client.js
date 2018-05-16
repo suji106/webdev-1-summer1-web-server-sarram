@@ -57,6 +57,6 @@
 
 	function loginRedirect() {
 		console.log("sss");
-		window.location.href = "http://localhost:8080/jquery/components/login/login.template.client.html"
+		window.location.href = "/jquery/components/login/login.template.client.html"
 	}
 })();
