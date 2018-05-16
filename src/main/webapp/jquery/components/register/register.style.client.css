@@ -1,0 +1,30 @@
+body {
+    color: #2f8dd2;
+    background-color: #111111;
+}
+
+#registerTitle{
+	text-align: center;
+	text-indent: 50px;
+	margin-top: 40px;
+}
+
+#userNameBlock {
+	margin-top: 60px;
+}
+
+#tableHeader{
+	text-align: center;
+	color: #004080;
+}
+
+.wbdv-form{
+	color: white;
+	text-align: center;
+}
+
+.table-row{
+	text-align: center;
+	background-color: #111111;
+	color: maroon;	
+}

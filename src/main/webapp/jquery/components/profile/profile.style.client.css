@@ -1,9 +1,11 @@
-#updateBtn {
-	background-color: green;
+body {
+    color: #2f8dd2;
+    background-color: #111111;
 }
 
-#logoutBtn {
-	background-color: red;
+#profileTitle {
+	text-align: center;
+	text-indent: 50px;
 }
 
 .popups {
