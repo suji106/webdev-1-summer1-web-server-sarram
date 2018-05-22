@@ -22,6 +22,13 @@ public class CourseServices {
 	public Iterable<Course> findAllCourses() {
 		return courseRepository.findAll();
 	}
+	
+	@GetMapping("/api/course/{courseId}")
+	public String getCourseByCourseId(@PathVariable("courseId") int id) {
+		Course course = courseRepository.findById(id).get();
+		System.out.println(course.getTitle());
+		return course.getTitle();
+	}
 
 	@PostMapping("/api/course")
 	public Course createCourse(@RequestBody Course course) {

@@ -1,5 +1,6 @@
 package webdev.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class ModuleService {
 		if(data.isPresent()) {
 			Course course = data.get();
 			newModule.setCourse(course);
+			changeModifiedCourse(course, newModule.getModified());
 			return moduleRepository.save(newModule);
 		}
 		return null;		
@@ -54,6 +56,9 @@ public class ModuleService {
 	@DeleteMapping("/api/module/{moduleId}")
 	public void deleteModule(@PathVariable("moduleId") int moduleId)
 	{
+		List<Course> courseIds = (List<Course>) moduleRepository.findCourseByModelId(moduleId);
+		System.out.println(courseIds.get(0).getId());
+		changeModifiedCourse(courseRepository.findById(courseIds.get(0).getId()).get(), moduleRepository.findById(moduleId).get().getModified());
 		moduleRepository.deleteById(moduleId);
 	}
 	
@@ -61,5 +66,11 @@ public class ModuleService {
 	public List<Module> findAllModules()
 	{
 		return (List<Module>) moduleRepository.findAll();
+	}
+	
+	public void changeModifiedCourse(Course course, Date modified) {
+		System.out.println(course.getId() + " " + modified);
+		course.setModified(modified);
+		courseRepository.save(course);
 	}
 }

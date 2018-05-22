@@ -1,10 +1,14 @@
 package webdev.models;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
@@ -16,6 +20,9 @@ public class Module {
 	@ManyToOne
 	@JsonIgnore
 	private Course course;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modified;
+	
 	public int getId() {
 		return id;
 	}
@@ -33,5 +40,11 @@ public class Module {
 	}
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+	public Date getModified() {
+		return modified;
+	}
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 }
