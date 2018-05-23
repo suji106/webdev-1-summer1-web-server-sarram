@@ -53,19 +53,21 @@ public class ModuleService {
 		return null;		
 	}
 	
-	@DeleteMapping("/api/module/{moduleId}")
-	public void deleteModule(@PathVariable("moduleId") int moduleId)
+	@GetMapping("/api/module/{moduleId}")
+	public Optional<Module> getModule(@PathVariable("moduleId") String module_id)
 	{
+		int moduleId = Integer.parseInt(module_id);
+		return moduleRepository.findById(moduleId);
+	}
+	
+	@DeleteMapping("/api/module/{moduleId}")
+	public void deleteModule(@PathVariable("moduleId") String module_id)
+	{
+		int moduleId = Integer.parseInt(module_id);
 		List<Course> courseIds = (List<Course>) moduleRepository.findCourseByModelId(moduleId);
 		System.out.println(courseIds.get(0).getId());
 		changeModifiedCourse(courseRepository.findById(courseIds.get(0).getId()).get(), moduleRepository.findById(moduleId).get().getModified());
 		moduleRepository.deleteById(moduleId);
-	}
-	
-	@GetMapping("/api/module")
-	public List<Module> findAllModules()
-	{
-		return (List<Module>) moduleRepository.findAll();
 	}
 	
 	public void changeModifiedCourse(Course course, Date modified) {

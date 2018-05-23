@@ -1,34 +1,27 @@
 package webdev.models;
 
 import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Course {
+public class Lesson {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
-	@UpdateTimestamp
+	@ManyToOne
+	@JsonIgnore
+	private Module module;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
-	@OneToMany(mappedBy="course", orphanRemoval = true, cascade = CascadeType.PERSIST)
-	private List<Module> modules;
 
 	public int getId() {
 		return id;
@@ -42,24 +35,16 @@ public class Course {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Date getCreated() {
-		System.out.println(created);
-		return created;
+	public Module getModule() {
+		return module;
 	}
-	public void setCreated(Date created) {
-		System.out.println(created);
-		this.created = created;
+	public void setModule(Module module) {
+		this.module = module;
 	}
 	public Date getModified() {
 		return modified;
 	}
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-	public List<Module> getModules() {
-		return modules;
-	}
-	public void setModules(List<Module> modules) {
-		this.modules = modules;
 	}
 }
