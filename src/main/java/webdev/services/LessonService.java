@@ -27,16 +27,18 @@ public class LessonService {
 	@Autowired
 	ModuleRepository moduleRepository;
 	
-	@PostMapping("/api/course/{moduleId}/lesson")
+	@PostMapping("/api/lesson/{moduleId}")
 	public Lesson createModule(
 			@PathVariable("moduleId") int moduleId,
 			@RequestBody Lesson newLesson) {
 		Optional<Module> data = moduleRepository.findById(moduleId);
-		
+		System.out.println("qqqqqqqqqqqqqqqqqqq");
+		System.out.println(newLesson.getTitle() + " " + "dddddddddddddddd");
 		if(data.isPresent()) {
 			Module module = data.get();
 			newLesson.setModule(module);
 			// changeModifiedCourse(module, newLesson.getModified());
+			System.out.println(newLesson.getTitle());
 			return lessonRepository.save(newLesson);
 		}
 		return null;		
@@ -45,7 +47,7 @@ public class LessonService {
 	@GetMapping("/api/course/{moduleId}/lesson")
 	public List<Lesson> findAllModulesForCourse(
 			@PathVariable("moduleId") int moduleId) {
-		System.out.println(moduleId);
+		System.out.println(moduleId + " lllllllll");
 		Optional<Module> data = moduleRepository.findById(moduleId);
 		if(data.isPresent()) {
 			Module module = data.get();
