@@ -14,7 +14,7 @@ import webdev.repositories.CourseRepository;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class CourseServices {
+public class CourseService {
 	@Autowired
 	CourseRepository courseRepository;
 	
@@ -26,7 +26,6 @@ public class CourseServices {
 	@GetMapping("/api/course/{courseId}")
 	public String getCourseByCourseId(@PathVariable("courseId") int id) {
 		Course course = courseRepository.findById(id).get();
-		System.out.println(course.getTitle());
 		return course.getTitle();
 	}
 

@@ -43,11 +43,9 @@ public class Course {
 		this.title = title;
 	}
 	public Date getCreated() {
-		System.out.println(created);
 		return created;
 	}
 	public void setCreated(Date created) {
-		System.out.println(created);
 		this.created = created;
 	}
 	public Date getModified() {
