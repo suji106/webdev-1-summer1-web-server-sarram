@@ -26,7 +26,7 @@ public class CourseService {
 	@GetMapping("/api/course/{courseId}")
 	public String getCourseByCourseId(@PathVariable("courseId") int id) {
 		Course course = courseRepository.findById(id).get();
-		return course.getTitle();
+		return "{\"title\": " + "\"" + course.getTitle() + "\"}";
 	}
 
 	@PostMapping("/api/course")
