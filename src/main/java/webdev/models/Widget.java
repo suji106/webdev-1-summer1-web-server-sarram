@@ -6,11 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 enum ListType {
-	ordered, unordered
+	widgetOrdered, unwidgetOrdered
 }
 
 @Entity
@@ -19,7 +20,7 @@ public class Widget {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private int order;
+	private int widgetOrder;
 	private String text;
 	private String className;
 	private String style;
@@ -31,6 +32,7 @@ public class Widget {
 	private String listItems;
 	@Enumerated(EnumType.STRING)
 	private ListType listType;
+	@ManyToOne
 	@JsonIgnore
 	private Lesson lesson;
 	
@@ -46,11 +48,11 @@ public class Widget {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getOrder() {
-		return order;
+	public int getwidgetOrder() {
+		return widgetOrder;
 	}
-	public void setOrder(int order) {
-		this.order = order;
+	public void setwidgetOrder(int widgetOrder) {
+		this.widgetOrder = widgetOrder;
 	}
 	public String getText() {
 		return text;

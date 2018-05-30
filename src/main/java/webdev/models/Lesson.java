@@ -25,7 +25,7 @@ public class Lesson {
 	private Module module;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
-	@OneToMany(mappedBy="widget", orphanRemoval=true)
+	@OneToMany(mappedBy="lesson", orphanRemoval=true)
 	private List<Widget> widgets;
 
 	public int getId() {

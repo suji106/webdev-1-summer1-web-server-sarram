@@ -83,7 +83,7 @@ public class WidgetService {
 		if(data.isPresent()) {
 			widget = data.get();
 			widget.setName(newWidget.getName());
-			widget.setOrder(newWidget.getOrder());
+			widget.setwidgetOrder(newWidget.getwidgetOrder());
 			widget.setText(newWidget.getText());
 			widget.setClassName(newWidget.getClassName());
 			widget.setStyle(newWidget.getStyle());
