@@ -1,5 +1,6 @@
 package webdev.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,12 +69,25 @@ public class WidgetService {
 		return null;		
 	}
 
+	@PostMapping("/api/lesson/{lessonId}/widgets")
+	public List<Widget> createWidgets(
+			@PathVariable("lessonId") int lessonId,
+			@RequestBody List<Widget> newWidgets) {
+		widgetRepository.deleteWidgetsByLessonId(lessonId);
+		List<Widget> output = new ArrayList<Widget>();
+		for(Widget w : newWidgets) {
+			output.add(createWidget(lessonId,w));
+		}
+		return output;
+	}
+
+
 	@DeleteMapping("/api/widget/{widgetId}")
 	public void deleteWidget(@PathVariable("widgetId") int widgetId)
 	{	
 		widgetRepository.deleteById(widgetId);
 	}
-	
+
 	@PutMapping("/api/widget/{widgetId}")
 	public Widget updateWidget(
 			@PathVariable("widgetId") int widgetId,
