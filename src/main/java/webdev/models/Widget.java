@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 enum ListType {
-	widgetOrdered, unwidgetOrdered
+	widgetOrdered, unordered
 }
 
 @Entity
@@ -22,7 +22,7 @@ public class Widget {
 	private String name;
 	private int widgetOrder;
 	private String text;
-	private String className;
+	private String widgetType;
 	private String style;
 	private String width;
 	private String height;
@@ -60,11 +60,11 @@ public class Widget {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public String getClassName() {
-		return className;
+	public String getWidgetType() {
+		return widgetType;
 	}
-	public void setClassName(String className) {
-		this.className = className;
+	public void setWidgetType(String widgetType) {
+		this.widgetType = widgetType;
 	}
 	public String getStyle() {
 		return style;

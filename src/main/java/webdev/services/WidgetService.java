@@ -45,13 +45,8 @@ public class WidgetService {
 	public List<Widget> findAllWidgetsForLesson(
 			@PathVariable("lessonId") int lessonId) {
 		Optional<Lesson> data = lessonRepository.findById(lessonId);
-		List<Widget> widgets = null;
-		if(data.isPresent()) {
-			Lesson course = data.get();
-			course.getWidgets();
-			return widgets;
-		}
-		return null;		
+		Lesson lesson = data.get();
+		return lesson.getWidgets();	
 	}
 
 	@PostMapping("/api/lesson/{lessonId}/widget")
@@ -99,7 +94,7 @@ public class WidgetService {
 			widget.setName(newWidget.getName());
 			widget.setwidgetOrder(newWidget.getwidgetOrder());
 			widget.setText(newWidget.getText());
-			widget.setClassName(newWidget.getClassName());
+			widget.setWidgetType(newWidget.getWidgetType());
 			widget.setStyle(newWidget.getStyle());
 			widget.setWidth(newWidget.getWidth());
 			widget.setHeight(newWidget.getHeight());
