@@ -1,10 +1,16 @@
 package webdev.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import webdev.models.User;
 import webdev.repositories.UserRepository;
@@ -12,115 +18,46 @@ import webdev.repositories.UserRepository;
 @RestController
 public class UserService {
 	@Autowired
-	UserRepository userRepository;
-
+	UserRepository repository;
+	
+	@DeleteMapping("/api/user/{userId}")
+	public void deleteUser(@PathVariable("userId") int id) {
+		repository.deleteById(id);
+	}
+	
 	@PostMapping("/api/user")
 	public User createUser(@RequestBody User user) {
-		return userRepository.save(user);
+		return repository.save(user);
 	}
-
-	@GetMapping("/api/users")
-	public List<User> findAllUsers() {
-		return (List<User>) userRepository.findAll();
+	
+	@PostMapping("/api/login")
+	public List<User> login(@RequestBody User user) {
+		return (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());
 	}
 	
 	@GetMapping("/api/user")
-	public User findUserByUserName(@RequestParam("user") String userName) {
-		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(userName);
-		User u = listOfRegistrations.get(0);
-		return u;
+	public List<User> findAllUsers() {
+		return (List<User>) repository.findAll();
 	}
-
+	
+	@PutMapping("/api/user/{userId}")
+	public User updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
+		Optional<User> data = repository.findById(userId);
+		if(data.isPresent()) {
+			User user = data.get();
+			user.setFirstName(newUser.getFirstName());
+			repository.save(user);
+			return user;
+		}
+		return null;
+	}
+	
 	@GetMapping("/api/user/{userId}")
-	public User findUserById(@PathVariable("userId") int id) {
-		Optional<User> data = userRepository.findById(id);
+	public User findUserById(@PathVariable("userId") int userId) {
+		Optional<User> data = repository.findById(userId);
 		if(data.isPresent()) {
 			return data.get();
 		}
 		return null;
-	}
-	
-	@PutMapping("/api/user")
-	public User findUserByUserName(@RequestBody User user) {
-		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(user.getUsername());
-
-		if (!listOfRegistrations.isEmpty()) {
-			User oldUser = listOfRegistrations.get(0);
-			user.setId(oldUser.getId());
-			return userRepository.save(user);
-		}	
-		else
-			return null;
-	}
-
-	@PutMapping("/api/user/{userId}")
-	public User updateUser(@RequestBody User newUser, @PathVariable("userId") int id) {
-		Optional<User> data = userRepository.findById(id);
-		if(data.isPresent()) {
-			newUser.setId(id);
-			userRepository.save(newUser);
-		}
-		return null;
-	}
-
-	@DeleteMapping("/api/user/{userId}")
-	public void deleteUser(@PathVariable("userId") int id) {
-		userRepository.deleteById(id);
-	}
-
-	@DeleteMapping("/api/allusers")
-	public void deleteAllUsers() {
-		userRepository.deleteAll();
-	}
-
-	@PostMapping("/api/register")
-	public ResponseEntity register(@RequestBody User user) {
-		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(user.getUsername());
-		try {
-			if(listOfRegistrations.isEmpty()) {
-				userRepository.save(user);
-				return new ResponseEntity(HttpStatus.OK);
-			}
-			else
-				return new ResponseEntity(HttpStatus.CONFLICT);
-		}
-		catch(Exception e) {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@PostMapping("/api/login")
-	public ResponseEntity login(@RequestBody User user) {
-		List<User> listOfUsers = (List<User>) userRepository.findUserByUserName(user.getUsername());
-		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUsernameAndPassword(user.getUsername(), user.getPassword());
-		if(!listOfUsers.isEmpty()) {
-			try {
-				User oldUser = listOfRegistrations.get(0);
-				return new ResponseEntity(HttpStatus.OK);
-			}
-			catch(Exception e) {
-				return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-			}
-		}
-		else {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@PutMapping("/api/profile")
-	public ResponseEntity profile(@RequestBody User user) {
-		List<User> listOfRegistrations = (List<User>) userRepository.findUserByUserName(user.getUsername());
-		if (!listOfRegistrations.isEmpty()) {
-			User oldUser = listOfRegistrations.get(0);
-			user.setId(oldUser.getId());
-			user.setPassword(oldUser.getPassword());
-			user.setFirstName(oldUser.getFirstName());
-			user.setLastName(oldUser.getLastName());
-			userRepository.save(user);
-			return new ResponseEntity(HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
 	}
 }

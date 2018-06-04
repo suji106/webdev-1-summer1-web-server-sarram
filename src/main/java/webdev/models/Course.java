@@ -1,9 +1,10 @@
 package webdev.models;
 
+import static org.assertj.core.api.Assertions.allOf;
+
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Course {
@@ -21,15 +21,13 @@ public class Course {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
-	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
-	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
-	@OneToMany(mappedBy="course", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy="course")
+	@JsonIgnore
 	private List<Module> modules;
-
 	public int getId() {
 		return id;
 	}

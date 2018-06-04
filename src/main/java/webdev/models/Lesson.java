@@ -1,6 +1,5 @@
 package webdev.models;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,11 +20,9 @@ public class Lesson {
 	@ManyToOne
 	@JsonIgnore
 	private Module module;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
-	@OneToMany(mappedBy="lesson", orphanRemoval=true)
+	@OneToMany(mappedBy="lesson")
+	@JsonIgnore
 	private List<Widget> widgets;
-
 	public int getId() {
 		return id;
 	}
@@ -45,12 +40,6 @@ public class Lesson {
 	}
 	public void setModule(Module module) {
 		this.module = module;
-	}
-	public Date getModified() {
-		return modified;
-	}
-	public void setModified(Date modified) {
-		this.modified = modified;
 	}
 	public List<Widget> getWidgets() {
 		return widgets;

@@ -1,20 +1,15 @@
 package webdev.models;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Module {
 	@Id
@@ -24,11 +19,15 @@ public class Module {
 	@ManyToOne
 	@JsonIgnore
 	private Course course;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
-	@OneToMany(mappedBy="module", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="module")
+	@JsonIgnore
 	private List<Lesson> lessons;
-	
+	public List<Lesson> getLessons() {
+		return lessons;
+	}
+	public void setLessons(List<Lesson> lessons) {
+		this.lessons = lessons;
+	}
 	public int getId() {
 		return id;
 	}
@@ -46,17 +45,5 @@ public class Module {
 	}
 	public void setCourse(Course course) {
 		this.course = course;
-	}
-	public Date getModified() {
-		return modified;
-	}
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-	public List<Lesson> getLessons() {
-		return lessons;
-	}
-	public void setLessons(List<Lesson> lessons) {
-		this.lessons = lessons;
 	}
 }

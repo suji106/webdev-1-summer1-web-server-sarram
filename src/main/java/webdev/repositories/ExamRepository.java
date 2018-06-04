@@ -2,9 +2,10 @@ package webdev.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
+import webdev.models.Exam;
 import webdev.models.Widget;
 
-public interface WidgetRepository
-extends CrudRepository<Widget, Integer>{
+public interface ExamRepository
+extends CrudRepository<Exam, Integer>{
 
 }

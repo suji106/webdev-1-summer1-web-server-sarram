@@ -1,6 +1,5 @@
 package webdev.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +20,10 @@ import webdev.repositories.ModuleRepository;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ModuleService {
-	@Autowired(required = true)
+	@Autowired
 	CourseRepository courseRepository;
 
-	@Autowired(required = true)
+	@Autowired
 	ModuleRepository moduleRepository;
 	
 	@PostMapping("/api/course/{courseId}/module")
@@ -37,16 +35,9 @@ public class ModuleService {
 		if(data.isPresent()) {
 			Course course = data.get();
 			newModule.setCourse(course);
-			changeModifiedCourse(course, newModule.getModified());
 			return moduleRepository.save(newModule);
 		}
 		return null;		
-	}
-	
-	@PutMapping("/api/course/module")
-	public Course updateModule(@RequestBody Module newModule) {
-		Course course = changeModifiedCourse(newModule.getCourse(), newModule.getModified());
-		return course;
 	}
 	
 	@GetMapping("/api/course/{courseId}/module")
@@ -60,31 +51,15 @@ public class ModuleService {
 		return null;		
 	}
 	
-	@GetMapping("/api/module/{moduleId}")
-	public Optional<Module> getModule(@PathVariable("moduleId") String module_id)
-	{
-		int moduleId = Integer.parseInt(module_id);
-		return moduleRepository.findById(moduleId);
-	}
-	
 	@DeleteMapping("/api/module/{moduleId}")
-	public void deleteModule(@PathVariable("moduleId") String module_id)
+	public void deleteModule(@PathVariable("moduleId") int moduleId)
 	{
-		int moduleId = Integer.parseInt(module_id);
-		List<Course> courseIds = (List<Course>) moduleRepository.findCourseByModelId(moduleId);
-		Date modified = new Date();
 		moduleRepository.deleteById(moduleId);
-		changeModifiedCourse(courseRepository.findById(courseIds.get(0).getId()).get(), modified);
 	}
 	
-	public Course changeModifiedCourse(Course course, Date modified) {
-		course.setModified(modified);
-		Course newCourse = new Course();
-		newCourse.setCreated(course.getCreated());
-		newCourse.setId(course.getId());
-		newCourse.setModified(modified);
-		newCourse.setTitle(course.getTitle());
-		newCourse.setModules(course.getModules());
-		return newCourse;
+	@GetMapping("/api/module")
+	public List<Module> findAllModules()
+	{
+		return (List<Module>) moduleRepository.findAll();
 	}
 }

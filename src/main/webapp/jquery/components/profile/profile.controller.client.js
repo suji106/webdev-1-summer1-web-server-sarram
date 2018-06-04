@@ -1,62 +1,51 @@
-(function () {
-	var usernameParam = window.location.hash.substring(1);
-	var $usernameFld, $phoneFld, $emailFld, $roleFld, $dobFld;
-	var $registerBtn;
-	var flag = true;
-	
-	var userService = new UserService();
-	
-	var userServiceClient = new UserServiceClient();
-	userServiceClient.searchByUserName(usernameParam).then(main);
+(function() {
+    $(init);
 
-	function main(user) { 
-		console.log("user:");
-		console.log(JSON.stringify(user));
-		$('#usernameFld').val(usernameParam);
-		$('#usernameFld').attr("disabled", true);
-		
-		// $('#usernameFld').val(usernameParam);
-		
-		$('#phoneFld').val(user.phone);
-		$('#emailFld').val(user.email);
-		$('#roleFld').val(user.role);
-		$('#dobFld').val(user.dateOfBirth);
-		
-		$('#updateBtn').click(updateProfile);
-		$('#logoutBtn').click(loginRedirect);
-	}
+    var $staticEmail;
+    var $firstName;
+    var $lastName;
+    var $updateBtn;
+    var userService = new UserServiceClient();
 
-	function updateProfile() {
-		console.log('updateProfile');
-		
-		$usernameFld = $('#usernameFld').val();
-		$phoneFld = $('#phoneFld').val();
-		$emailFld = $('#emailFld').val();
-		$roleFld = $('#roleFld').val();
-		$dobFld = $('#dobFld').val();
+    function init() {
+        $staticEmail = $("#staticEmail");
+        $firstName = $("#firstName");
+        $lastName = $("#lastName");
+        $updateBtn = $("#updateBtn")
+            .click(updateUser);
 
-		var user = new User($usernameFld, null, null, null, $emailFld, $phoneFld, $roleFld, $dobFld);
-		
-		console.log(JSON.stringify(user));
+        findUserById(12);
+    }
 
-		var appendString = '<div class="popup">Profile successfully updated!</div>';
+    function updateUser() {
+        var user = {
+            firstName: $firstName.val(),
+            lastName: $lastName.val()
+        };
 
-		userService
-		.updateUser(user).then(function(response){
-			if(response.status == 200 && flag == true){
-				flag = false;
-				$('form')
-				.prepend(appendString);
-				// alert("Successfully updated!");
-			}
-			else{
-				$(".popup").remove();
-			}
-		});
-	}
+        userService
+            .updateUser(12, user)
+            .then(success);
+    }
 
-	function loginRedirect() {
-		console.log("sss");
-		window.location.href = "/jquery/components/login/login.template.client.html"
-	}
+    function success(response) {
+        if(response === null) {
+            alert('unable to update')
+        } else {
+            alert('success');
+        }
+    }
+
+    function findUserById(userId) {
+        userService
+            .findUserById(userId)
+            .then(renderUser);
+    }
+    
+    function renderUser(user) {
+        console.log(user);
+        $staticEmail.val(user.username);
+        $firstName.val(user.firstName);
+        $lastName.val(user.lasteName);
+    }
 })();
