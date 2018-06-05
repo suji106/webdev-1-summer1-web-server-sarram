@@ -21,6 +21,7 @@ public class Widget {
 	@ManyToOne
 	@JsonIgnore
 	private Lesson lesson;
+	
 	public String getWidgetType() {
 		return widgetType;
 	}

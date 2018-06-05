@@ -20,9 +20,11 @@ public class Lesson {
 	@ManyToOne
 	@JsonIgnore
 	private Module module;
+	
 	@OneToMany(mappedBy="lesson")
 	@JsonIgnore
 	private List<Widget> widgets;
+	
 	public int getId() {
 		return id;
 	}
