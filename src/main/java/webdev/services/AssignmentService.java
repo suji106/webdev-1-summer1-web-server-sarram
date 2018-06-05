@@ -3,7 +3,6 @@ package webdev.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.experimental.theories.internal.Assignments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import webdev.models.Assignment;
-import webdev.models.Exam;
 import webdev.models.Lesson;
-import webdev.models.Question;
 import webdev.models.Widget;
 import webdev.repositories.AssignmentRepository;
 import webdev.repositories.LessonRepository;
