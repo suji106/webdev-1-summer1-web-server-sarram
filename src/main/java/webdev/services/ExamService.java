@@ -1,7 +1,9 @@
 package webdev.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,14 +50,14 @@ public class ExamService {
 	EssayQuestionRepository essayRepo;
 	@Autowired
 	FillQuestionRepository fillRepo;
-	
+
 	///////////////////////////////////////   EEEEEEXXXXXXXXXAAAAAAAAAMMMMMMMMMMMM  //////////////////////////////////////////////
 
 	@GetMapping("/api/exam")
 	public List<Exam> findAllExams() {
 		return (List<Exam>) examRepository.findAll();
 	}
-	
+
 	@GetMapping("/api/exam/{examId}")
 	public List<Question> findExamForExamId(@PathVariable("examId") int examId) {
 		Optional<Exam> optionalExam = examRepository.findById(examId);
@@ -66,26 +68,29 @@ public class ExamService {
 		}
 		return null;
 	}
-	
+
 	@GetMapping("/api/lesson/{lessonId}/exam")
 	public List<Exam> findExamsForLessonId(@PathVariable("lessonId") int lessonId) {
 		Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
 		if(optionalLesson.isPresent()) {
 			Lesson lesson = optionalLesson.get();
 			List<Widget> widgets = lesson.getWidgets();
-			List<Exam> exams = null;
-			for(Widget widget: widgets) {
-				String widgetType = widgetRepository.checkIfExam(widget.getId());
-				if(widgetType.equals("Exam")) {
-					Optional<Exam> examOptional = examRepository.findById(widget.getId());
-					exams.add(examOptional.get());
-				}
+			List<Exam> exams = new ArrayList<Exam>();
+
+			List<Widget> examWidgets = widgets.stream()
+					.filter(widget -> "Exam".equals(widget.getWidgetType()))
+					.collect(Collectors.toList());         
+
+			for(Widget widget: examWidgets) {
+				Optional<Exam> examOptional = examRepository.findById(widget.getId());
+				exams.add(examOptional.get());
 			}
+
 			return exams;
 		}
 		return null;
 	}
-	
+
 	@PostMapping("/api/lesson/{lessonId}/exam")
 	public Exam createExamForLesson(@RequestBody Exam exam, @PathVariable("lessonId") int lessonId) {
 		Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
@@ -96,7 +101,7 @@ public class ExamService {
 		}
 		return null;
 	}
-	
+
 	///////////////////////////////////////   GGGGGGGGGGGGGEEEEEEEEEEETTTTTTTTTTTTTTT  //////////////////////////////////////////////
 
 	@GetMapping("/api/multi/{questionId}")
@@ -125,7 +130,7 @@ public class ExamService {
 		}
 		return null;
 	}
-	
+
 	@GetMapping("/api/fill/{questionId}")
 	public FillQuestion findFillQuestionById(@PathVariable("questionId") int questionId) {
 		Optional<FillQuestion> optional = fillRepo.findById(questionId);
@@ -145,7 +150,7 @@ public class ExamService {
 		}
 		return null;
 	}
-	
+
 	@PutMapping("/api/truefalse/{questionId}")
 	public TrueFalseQuestion updateTrueFasleQuestionById(@PathVariable("questionId") int questionId, @RequestBody TrueFalseQuestion question) {
 		Optional<TrueFalseQuestion> optionalExam = trueFalseRepository.findById(questionId);
@@ -154,7 +159,7 @@ public class ExamService {
 		}
 		return null;
 	}
-	
+
 	@PutMapping("/api/essay/{questionId}")
 	public EssayQuestion updateEssayQuestionById(@PathVariable("questionId") int questionId, @RequestBody EssayQuestion question) {
 		Optional<EssayQuestion> optionalExam = essayRepo.findById(questionId);
@@ -163,7 +168,7 @@ public class ExamService {
 		}
 		return null;
 	}
-	
+
 	@PutMapping("/api/fill/{questionId}")
 	public FillQuestion updateFillQuestionById(@PathVariable("questionId") int questionId, @RequestBody FillQuestion question) {
 		Optional<FillQuestion> optionalExam = fillRepo.findById(questionId);
@@ -198,7 +203,7 @@ public class ExamService {
 			essayRepo.deleteById(questionId);
 		}
 	}
-	
+
 	@DeleteMapping("/api/fill/{questionId}")
 	public void deleteFillQuestionById(@PathVariable("questionId") int questionId) {
 		Optional<FillQuestion> optional = fillRepo.findById(questionId);
@@ -229,7 +234,7 @@ public class ExamService {
 		question.setExam(optionalExam.get());
 		return essayRepo.save(question);
 	}
-	
+
 	@PostMapping("/api/{examId}/fill")
 	public FillQuestion createFillQuestion(@PathVariable("examId") int examId, @RequestBody FillQuestion question) {
 		Optional<Exam> optionalExam = examRepository.findById(examId);

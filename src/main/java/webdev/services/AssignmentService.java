@@ -1,7 +1,9 @@
 package webdev.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import webdev.models.Assignment;
+import webdev.models.Exam;
 import webdev.models.Lesson;
 import webdev.models.Widget;
 import webdev.repositories.AssignmentRepository;
@@ -39,16 +42,18 @@ public class AssignmentService {
 	@GetMapping("/api/lesson/{lessonId}/assignment")
 	public List<Assignment> findAssignmentByLessonId(@PathVariable("lessonId") int lessonId) {
 		Optional<Lesson> lessonOptional = lessonRepo.findById(lessonId);
-		if(!lessonOptional.isPresent()) {
+		if(lessonOptional.isPresent()) {
 			Lesson lesson = lessonOptional.get();
 			List<Widget> widgets = lesson.getWidgets();
-			List<Assignment> assignments = null;
-			for(Widget widget: widgets) {
-				String widgetType = widgetRepository.checkIfExam(widget.getId());
-				if(widgetType.equals("Assignment")) {
-					Optional<Assignment> assignmentOptional = assignmentRepo.findById(widget.getId());
-					assignments.add(assignmentOptional.get());
-				}
+			List<Assignment> assignments = new ArrayList<Assignment>();
+			
+			List<Widget> assignmentWidgets = widgets.stream()
+					.filter(widget -> "Assignment".equals(widget.getWidgetType()))
+					.collect(Collectors.toList());     
+			
+			for(Widget widget: assignmentWidgets) {
+				Optional<Assignment> assignmentOptional = assignmentRepo.findById(widget.getId());
+				assignments.add(assignmentOptional.get());
 			}
 			return assignments;
 		}
