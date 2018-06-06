@@ -68,16 +68,17 @@ public class AssignmentService {
 		}
 		return null;
 	}
-
-	@PutMapping("/api/assignment/{assignmentId}")
-	public Assignment updateAssignmentById(@PathVariable("assignmentId") int assignmentId, @RequestBody Assignment assignment) {
-		Optional<Assignment> optionalExam = assignmentRepo.findById(assignmentId);
-		if(optionalExam.isPresent()) {
-			return assignmentRepo.save(assignment);
+	
+	@PutMapping("/api/lesson/{lessonId}/assignment")
+	public Assignment updateAssignment(@PathVariable("lessonId") int lessonId, @RequestBody Assignment assignment) {
+			Optional<Lesson> lessonOptional = lessonRepo.findById(lessonId);
+			if(lessonOptional.isPresent()) {
+				assignment.setLesson(lessonOptional.get());
+				return assignmentRepo.save(assignment);
+			}
+			return null;
 		}
-		return null;
-	}
-
+		
 	@DeleteMapping("/api/assignment/{assignmentId}")
 	public void deleteAssignmentById(@PathVariable("assignmentId") int assignmentId) {
 		Optional<Assignment> optional = assignmentRepo.findById(assignmentId);
