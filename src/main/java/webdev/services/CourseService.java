@@ -24,7 +24,7 @@ public class CourseService {
 	}
 	
 	@GetMapping("/api/course/{courseId}")
-	public String getCourseByCourseId(@PathVariable("courseId") int id) {
+	public Course getCourseByCourseId(@PathVariable("courseId") int id) {
 		Course course = courseRepository.findById(id).get();
 		return course;
 	}
