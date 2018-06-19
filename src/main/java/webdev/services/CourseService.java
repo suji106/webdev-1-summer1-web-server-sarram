@@ -1,5 +1,8 @@
 package webdev.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,5 +40,17 @@ public class CourseService {
 	@DeleteMapping("/api/course/{courseId}")
 	public void deleteCourse(@PathVariable("courseId") int id) {
 		courseRepository.deleteById(id);
+	}
+	
+	@GetMapping("/api/course/public")
+	public Iterable<Course> findAllPublicCourses() {
+		List<Course> courses = (List<Course>) courseRepository.findAll();
+		List<Course> publicCourses = new ArrayList<Course>();
+		for (Course course: courses) {
+			if (course.getContentType() == "public") {
+				publicCourses.add(course);
+			}
+		}
+		return publicCourses;
 	}
 }

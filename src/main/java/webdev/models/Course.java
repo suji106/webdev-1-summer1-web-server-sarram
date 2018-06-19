@@ -20,6 +20,7 @@ public class Course {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	private String contentType = "public";
 	private String title;
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -35,6 +36,12 @@ public class Course {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 	public String getTitle() {
 		return title;
